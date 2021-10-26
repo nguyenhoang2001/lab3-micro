@@ -12,14 +12,16 @@
 
 enum ButtonState { BUTTON_RELEASED , BUTTON_PRESSED ,BUTTON_PRESSED_MORE_THAN_1_SECOND } ;
 enum ButtonState buttonState = BUTTON_RELEASED;
-
+enum ButtonState buttonState_2 = BUTTON_RELEASED;
+enum ButtonState buttonState_3 = BUTTON_RELEASED;
 static int time1 = 0;
-
 static int themode = -1;
 
 static int time_red = 5;
 static int time_yellow = 2;
 static int time_green = 3;
+static int able = 1;
+static int call = 1;
 
 void changeState1() {
 
@@ -71,7 +73,13 @@ void trafficlight(int timered, int timeyellow, int timegreen)
 
 			if(is_button_pressed(0))
 			{
-				themode++;
+				if(call > 1)
+					themode = 0;
+				else
+				{
+					themode = 1;
+					call = 2;
+				}
 				blink_LED_RED();
 				return;
 			}
@@ -85,11 +93,18 @@ void trafficlight(int timered, int timeyellow, int timegreen)
 
 	while(time_sec != 0) {
 		int count = 0;
+
 		while(count < 8) {
 			updateLED(time_first, time_sec);
 			if(is_button_pressed(0))
 			{
-				themode++;
+				if(call > 1)
+					themode = 0;
+				else
+				{
+					themode = 1;
+					call = 2;
+				}
 				blink_LED_RED();
 				return;
 			}
@@ -107,11 +122,18 @@ void trafficlight(int timered, int timeyellow, int timegreen)
 
 	while(time_first != 0) {
 		int count = 0;
+
 		while(count < 8) {
 			updateLED(time_first, time_sec);
 			if(is_button_pressed(0))
 			{
-				themode++;
+				if(call > 1)
+					themode = 0;
+				else
+				{
+					themode = 1;
+					call = 2;
+				}
 				blink_LED_RED();
 				return;
 			}
@@ -126,11 +148,18 @@ void trafficlight(int timered, int timeyellow, int timegreen)
 
 	while(time_first != 0) {
 		int count = 0;
+
 		while(count < 8) {
 			updateLED(time_first, time_sec);
 			if(is_button_pressed(0))
 			{
-				themode++;
+				if(call > 1)
+					themode = 0;
+				else
+				{
+					themode = 1;
+					call = 2;
+				}
 				blink_LED_RED();
 				return;
 			}
@@ -142,8 +171,70 @@ void trafficlight(int timered, int timeyellow, int timegreen)
 
 	HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, 0);
 	HAL_GPIO_WritePin(RED_HOR_GPIO_Port, RED_HOR_Pin, 0);
-
 }
+
+void fsm_for_input_processing_2(void) {
+	switch ( buttonState_2 ){
+	case BUTTON_RELEASED:
+		if(is_button_pressed_2(0)) {
+			buttonState_2 = BUTTON_PRESSED;
+			// INCREASE VALUE OF PORT A BY ONE UNIT
+			time1++;
+		}
+		break;
+	case BUTTON_PRESSED:
+		if (!is_button_pressed_2(0)) {
+			buttonState_2 = BUTTON_RELEASED;
+		} else {
+			if( is_button_pressed_1s_2(0)) {
+				buttonState_2 = BUTTON_PRESSED_MORE_THAN_1_SECOND ;
+			}
+		}
+		break ;
+	case BUTTON_PRESSED_MORE_THAN_1_SECOND :
+
+		if (!is_button_pressed_2(0)) {
+			buttonState_2 = BUTTON_RELEASED ;
+		}
+		// todo
+		time1++;
+		HAL_Delay(50);
+		break;
+	}
+}
+
+void fsm_for_input_processing_3(void) {
+
+	switch ( buttonState_3 ){
+
+	case BUTTON_RELEASED:
+		if(is_button_pressed_3(0)) {
+			buttonState_3 = BUTTON_PRESSED;
+			// INCREASE VALUE OF PORT A BY ONE UNIT
+			able = 0;
+			return;
+		}
+		fsm_for_input_processing_2();
+		updateLED(time1,themode);
+		break;
+	case BUTTON_PRESSED:
+		if (!is_button_pressed_3(0)) {
+			buttonState_3 = BUTTON_RELEASED;
+		} else {
+			if( is_button_pressed_1s_3(0)) {
+				buttonState_3 = BUTTON_PRESSED_MORE_THAN_1_SECOND ;
+			}
+		}
+		break ;
+	case BUTTON_PRESSED_MORE_THAN_1_SECOND :
+		if (!is_button_pressed_3(0)) {
+			buttonState_3 = BUTTON_RELEASED ;
+		}
+		// todo
+		break ;
+	}
+}
+
 void fsm_for_input_processing(void) {
 
 	switch ( buttonState ){
@@ -175,8 +266,41 @@ void fsm_for_input_processing(void) {
 		if(themode == 0) {
 			trafficlight(time_red, time_yellow, time_green);
 		}
-		else
-			updateLED(time1, themode);
+		else if(themode == 1) {
+			able = 1;
+			while(able == 1) {
+				fsm_for_input_processing_3();
+			}
+			time_red = time1;
+			time1 = 0;
+
+			themode++;
+			turn_off_blink_LED_RED();
+			blink_LED_YELLOW();
+		}
+		else if(themode == 2) {
+			able = 1;
+			while(able == 1) {
+				fsm_for_input_processing_3();
+			}
+			time_yellow = time1;
+			time1 = 0;
+
+			themode++;
+			turn_off_blink_LED_YELLOW();
+			blink_LED_GREEN();
+		}
+		else if(themode == 3) {
+			able = 1;
+			while(able == 1) {
+				fsm_for_input_processing_3();
+			}
+			time_green = time1;
+			time1 = 0;
+
+			themode = 0;
+			turn_off_blink_LED_GREEN();
+		}
 		break;
 	case BUTTON_PRESSED:
 		if (!is_button_pressed(0)) {

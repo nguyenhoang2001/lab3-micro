@@ -1,3 +1,9 @@
-input_reading.c:33:6:button_reading	24	static
-input_reading.c:64:15:is_button_pressed	16	static
-input_reading.c:69:15:is_button_pressed_1s	16	static
+input_reading.c:45:6:button_reading	24	static
+input_reading.c:76:15:is_button_pressed	16	static
+input_reading.c:81:15:is_button_pressed_1s	16	static
+input_reading.c:88:6:button_reading_2	24	static
+input_reading.c:118:15:is_button_pressed_2	16	static
+input_reading.c:123:15:is_button_pressed_1s_2	16	static
+input_reading.c:129:6:button_reading_3	24	static
+input_reading.c:159:15:is_button_pressed_3	16	static
+input_reading.c:164:15:is_button_pressed_1s_3	16	static
