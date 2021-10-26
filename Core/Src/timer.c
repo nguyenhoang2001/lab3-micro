@@ -8,6 +8,7 @@
 #include "main.h"
 #include "input_reading.h"
 #include "timer.h"
+#include "led_display.h"
 
 static uint32_t count = 0;
 static uint32_t thescale = 0;
@@ -15,6 +16,8 @@ static int runOnce = 1;
 static int blink_led_red = 0;
 static int blink_led_yellow = 0;
 static int blink_led_green = 0;
+static int time_first = 0;
+static int time_second = 0;
 
 void calculateScale(TIM_HandleTypeDef * htim) {
 	uint32_t reload = htim->Instance->ARR;
@@ -25,6 +28,13 @@ void calculateScale(TIM_HandleTypeDef * htim) {
 
 void blink_LED_RED() {
 	blink_led_red = 1;
+	HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, 1);
+	HAL_GPIO_WritePin(RED_HOR_GPIO_Port, RED_HOR_Pin, 1);
+	HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, 0);
+	HAL_GPIO_WritePin(YELLOW_HOR_GPIO_Port, YELLOW_HOR_Pin, 0);
+	HAL_GPIO_WritePin(GREEN_GPIO_Port, GREEN_Pin, 0);
+	HAL_GPIO_WritePin(GREEN_HOR_GPIO_Port, GREEN_HOR_Pin, 0);
+
 }
 void turn_off_blink_LED_RED() {
 	HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, 0);
@@ -35,6 +45,12 @@ void turn_off_blink_LED_RED() {
 
 void blink_LED_YELLOW(){
 	blink_led_yellow = 1;
+	HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, 1);
+	HAL_GPIO_WritePin(YELLOW_HOR_GPIO_Port, YELLOW_HOR_Pin, 1);
+	HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, 0);
+	HAL_GPIO_WritePin(RED_HOR_GPIO_Port, RED_HOR_Pin, 0);
+	HAL_GPIO_WritePin(GREEN_GPIO_Port, GREEN_Pin, 0);
+	HAL_GPIO_WritePin(GREEN_HOR_GPIO_Port, GREEN_HOR_Pin, 0);
 }
 
 void turn_off_blink_LED_YELLOW() {
@@ -46,6 +62,12 @@ void turn_off_blink_LED_YELLOW() {
 
 void blink_LED_GREEN() {
 	blink_led_green = 1;
+	HAL_GPIO_WritePin(GREEN_GPIO_Port, GREEN_Pin, 1);
+	HAL_GPIO_WritePin(GREEN_HOR_GPIO_Port, GREEN_HOR_Pin, 1);
+	HAL_GPIO_WritePin(RED_GPIO_Port, RED_Pin, 0);
+	HAL_GPIO_WritePin(RED_HOR_GPIO_Port, RED_HOR_Pin, 0);
+	HAL_GPIO_WritePin(YELLOW_GPIO_Port, YELLOW_Pin, 0);
+	HAL_GPIO_WritePin(YELLOW_HOR_GPIO_Port, YELLOW_HOR_Pin, 0);
 }
 
 void turn_off_blink_LED_GREEN() {

@@ -82,7 +82,6 @@ void updateLED(int time1, int time2) {
 	HAL_Delay(70);
 }
 
-void trafficlight(int time1_red, int time1_yellow, int time1_green, int time2_red, int tim2_yellow, int time2_green) {
 
 
 
@@ -96,4 +95,3 @@ void trafficlight(int time1_red, int time1_yellow, int time1_green, int time2_re
 
 
 
-}

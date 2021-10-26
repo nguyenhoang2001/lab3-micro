@@ -1,1 +1,4 @@
-input_processing.c:18:6:fsm_for_input_processing	8	static
+input_processing.c:24:6:changeState1	8	static
+input_processing.c:40:6:changeState2	8	static
+input_processing.c:56:6:trafficlight	48	static
+input_processing.c:147:6:fsm_for_input_processing	8	static
