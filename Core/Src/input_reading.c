@@ -18,6 +18,7 @@
 // the buffer that the final result is stored after
 // debouncing
 static GPIO_PinState buttonBuffer[ N0_OF_BUTTONS ];
+
 static GPIO_PinState buttonBuffer_2[ N0_OF_BUTTONS ];
 static GPIO_PinState buttonBuffer_3[ N0_OF_BUTTONS ];
 
@@ -33,12 +34,14 @@ static GPIO_PinState debounceButtonBuffer2_3[ N0_OF_BUTTONS ];
 
 // we define a flag for a button pressed more than 1 second .
 static uint8_t flagForButtonPress1s[ N0_OF_BUTTONS ];
+
 static uint8_t flagForButtonPress1s_2[ N0_OF_BUTTONS ];
 static uint8_t flagForButtonPress1s_3[ N0_OF_BUTTONS ];
 
 // we define counter for automatically increasing the value
 // after the button is pressed more than 1 second .
 static uint16_t counterForButtonPress1s[ N0_OF_BUTTONS ];
+
 static uint16_t counterForButtonPress1s_2[ N0_OF_BUTTONS ];
 static uint16_t counterForButtonPress1s_3[ N0_OF_BUTTONS ];
 

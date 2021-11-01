@@ -2,7 +2,7 @@
  * input_processing.h
  *
  *  Created on: Oct 16, 2021
- *      Author: MSI-
+ *      Author: HOANG
  */
 
 #ifndef INC_INPUT_PROCESSING_H_

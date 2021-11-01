@@ -11,6 +11,7 @@
 void button_reading ( void );
 unsigned char is_button_pressed ( unsigned char index );
 unsigned char is_button_pressed_1s ( unsigned char index );
+
 void button_reading_2 ( void );
 unsigned char is_button_pressed_2 ( unsigned char index );
 unsigned char is_button_pressed_1s_2 ( unsigned char index );
